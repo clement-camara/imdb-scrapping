@@ -1,0 +1,11 @@
+name: imdb-scrapp
+channels:
+  - https://conda.atoti.io
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - pandas
+  - beautifulsoup4
+  - requests
+

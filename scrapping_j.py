@@ -14,7 +14,7 @@ for url in uri:
     result = soup.find_all('h3', class_="lister-item-header")
     for res in result:
         title_film = res.find('a').text
-        date_sortie = res.find('span', class_="lister-item-year text-muted unbold").text.strip('()')
+        date_sortie = res.find('span', class_="lister-item-year text-muted unbold").text.strip('I) ()')
         top_250["title"].append(title_film)
         top_250["date"].append(date_sortie)
 

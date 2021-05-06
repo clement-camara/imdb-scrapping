@@ -26,8 +26,6 @@ def get_new_url_from_page(page_soup):
 headers = ['Titre', 'Année', 'Score', 'Réalisateur', 'Votes', 'Recette', 'Genre', 'Durée']
 movies = pd.DataFrame(columns=headers)
 
-real_directors = {}
-
 def add_title():
     title = film.h3.a.text
     row.append(title)
@@ -55,22 +53,12 @@ def add_vote_and_recette():
         else:
             pass
 
-def add_directors(title):
-    directors = ""
-    directors += str(film.find_all('p')[2])
-    splitted_directors = directors.split("Stars:")
-    last_split = splitted_directors[0].replace('<span class="ghost">|</span> ', "").replace('<p class="">', '').replace('Director:', '').replace('Directors:', '').replace('\n', '')
-    end_split = last_split.split('">')
-    if len(end_split) > 3:
-        real_directors[title] = [end_split[3].replace("</a>", ""), end_split[2].split('</a')[0], end_split[1].split('</a')[0]]
-    elif len(end_split) > 2:
-        real_directors[title] = [end_split[2].replace("</a>", ""), end_split[1].split('</a')[0]]
-    else:
-        real_directors[title] = end_split[1].replace("</a>", "")
-    row.append(real_directors[title])
+def add_directors():
+    directors = film.find("p", {"class":""}).text.strip().split(':\n')[1].replace(', ', '').split('\n')[:-2]
+    row.append(directors)
 
 def add_genre():
-    genre = film.find("span", {"class":"genre"}).text.strip('\n').split(',')
+    genre = film.find("span", {"class":"genre"}).text.strip(" ").strip('\n').split(', ')
     row.append(genre)
 
 def add_duree():
@@ -90,11 +78,10 @@ def scrapp_all():
 
     for film in films:
         row = []
-        title = film.h3.a.text
         add_title()
         add_year()
         add_rate()
-        add_directors(title)
+        add_directors()
         add_vote_and_recette()
         add_genre()
         add_duree()
@@ -105,4 +92,4 @@ def scrapp_all():
 scrapp_all()
 
 
-print(movies)
+#print(movies.head(25))

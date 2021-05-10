@@ -48,7 +48,7 @@ def add_vote_and_recette():
             if len(film.find("p", {"class": "sort-num_votes-visible"}).find_all("span")) < 4:
                 row.append("0")
             else:
-                gross = film.find("p", {"class": "sort-num_votes-visible"}).find_all("span")[4]["data-value"]
+                gross = film.find("p", {"class": "sort-num_votes-visible"}).find_all("span")[4]["data-value"].replace(',', '')
                 row.append(gross)
         else:
             pass

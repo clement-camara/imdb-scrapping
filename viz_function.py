@@ -38,15 +38,14 @@ def print_best_scores_movies(df, numeric_features):
     print("                              Movies with best scores".upper())
     print("""**************************************************************************************""")
     for feature in numeric_features:
-        df.sort_values(by=feature, ascending=False, inplace=True, ignore_index=True)
-        année = df.loc[0, 'year']
-        titre = df.loc[0, 'title']
-        realisateur = df.loc[0, 'directors']
-        max_feature = df.loc[0, feature]
-
-        print("""{:} ({:}) by {:} with  the highest {:} = {:}\n""".format(titre, année, ', '.join(realisateur),
-                                                                           feature.replace('_', ' '), max_feature))
-
+        df.sort_values(by = feature, ascending=False, inplace=True, ignore_index= True)
+        année = df.loc[0,'Année']        
+        titre = df.loc[0,'Titre']
+        realisateur = df.loc[0,'Réalisateur']
+        max_feature = df.loc[0,feature]
+    
+        print("""{:} ({:}) by {:} with  the highest {:} = {:,}\n""".format(titre, année, ', '.join(realisateur) , feature.replace('_', ' '), max_feature))
+ 
 
 def create_transformed_df(old_df, elem_list, features_list):
     """elem_list should be in type list"""
@@ -84,19 +83,18 @@ def create_transformed_df(old_df, elem_list, features_list):
     return new_df
 
 
-## Plot top 20 with the highest rate/recette/movie_duration
+## Plot top 20 with the highest Score/recette/movie_Durée
 def barplot_top_N(df, label, n_top):
     """
     Function to make barblot of the top N realisateur with the highest value of feature
     df = data frame
-    features = list of names of columns
-    n_top = number of names in final barblot
+    features = list of names of columns 
+    n_top = number of names in final barblot    
     """
     features = list(df.columns)
     features = features[1:]
-    num_rows = len(features) // 2
-    if len(features) % 2 == 1: num_rows += 1
-    f, axes = plt.subplots(nrows=num_rows, ncols=2, figsize=(18, 10))
+    num_rows = len(features) 
+    f, axes = plt.subplots(nrows=num_rows, ncols=1, figsize=(10, 30))
     for i, feature in enumerate(features):
         df_sorted = df.sort_values(by=feature,
                                    ascending=False,
@@ -105,18 +103,18 @@ def barplot_top_N(df, label, n_top):
         sns.barplot(data=df_sorted.head(n_top),
                     y=label,
                     x=feature,
-                    ax=axes[i // 2, i % 2])
-        min_rate = df_sorted[feature].min()
-        max_rate = df_sorted[feature].max()
+                    ax=axes[i])
+        min_Score = df_sorted[feature].min()
+        max_Score = df_sorted[feature].max()
         # Add a legend and informative axis label
-        axes[i // 2, i % 2].set(xlim=(min_rate, max_rate * 1.01),
+        axes[i].set(xlim=(min_Score, max_Score * 1.01),
                                 xlabel=feature)  #, ylabel="",)
-        sns.despine(left=True, bottom=True, ax=axes[i // 2, i % 2])
-        axes[i // 2, i % 2].set_title(
+        sns.despine(left=True, bottom=True, ax=axes[i])
+        axes[i].set_title(
             f"Top {n_top} {label} with the highest {feature} ", size=12)
     plt.subplots_adjust()
     plt.tight_layout()
-
+    plt.show()
 
 
 

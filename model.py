@@ -40,18 +40,15 @@ def add_rate():
     row.append(rate)
 
 def add_vote_and_recette():
-    for i in range(5):
-        if i % 5 == 1:
-            vote = film.find("p", {"class": "sort-num_votes-visible"}).find_all("span")[1]["data-value"]
-            row.append(vote)
-        elif i % 5 == 4:
-            if len(film.find("p", {"class": "sort-num_votes-visible"}).find_all("span")) < 4:
-                row.append("0")
-            else:
-                gross = film.find("p", {"class": "sort-num_votes-visible"}).find_all("span")[4]["data-value"].replace(',', '')
-                row.append(gross)
-        else:
-            pass
+    vote_and_recette = film.find("p", {
+        "class": "sort-num_votes-visible"
+    }).findAll('span')
+    if len(vote_and_recette) < 4:
+        row.append(vote_and_recette[1]['data-value'])
+        row.append(None)
+    else:
+        row.append(vote_and_recette[1]['data-value'])
+        row.append(vote_and_recette[4]['data-value'].replace(',', ''))
 
 def add_directors():
     directors = film.find("p", {"class":""}).text.strip().split(':\n')[1].replace(', ', '').split('\n')[:-2]

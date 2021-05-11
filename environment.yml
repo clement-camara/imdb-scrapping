@@ -1,11 +1,15 @@
 name: imdb-scrapp
 channels:
-  - https://conda.atoti.io
-  - conda-forge
   - defaults
 dependencies:
-  - python=3.9
   - pandas
-  - beautifulsoup4
   - requests
+  - beautifulsoup4
+  - python=3.9
+  - autopep8
+  - ipykernel
+  - pandas-profiling
+  - seaborn
+  - statsmodels
+  - scipy
 
